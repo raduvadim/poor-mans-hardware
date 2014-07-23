@@ -56,3 +56,21 @@ Model asezare placi:
 		  	 |	placa achizitie temperatura	
 			 placa stabilizare tensiune si control incalzire
 
+Design frontal statie lipit:
+
+	+----------------------------+
+        |			     |
+	| +---------------+	     |
+	| |		  |   #####  |
+	| |	LCD/	  |   #PWR#  |
+	| |   7segmente	  |   #####  |
+	| |		  |          |
+	| +---------------+	     |
+	|  /-\   /-\   /-\    #####  |
+	|  \-/   \-/   \-/    #Con#  |
+	|		      #####  |
+        +-----------------------------
+
+
+
+
