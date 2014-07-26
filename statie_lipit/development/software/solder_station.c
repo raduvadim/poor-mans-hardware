@@ -1,17 +1,19 @@
 /* fisier: solder_station.c
  * 12/07/2014 vadim@anti
- *
+ * Bazat pe codul original de la: https://www.openhub.net/p/avr-pid-solder-station?ref=sample
  * Controllerul pentru statia de lipit se foloseste de doua interfete pentru comenzi.
  * Prima este interfata seriala(baud:9600 start8stop) si trei butoane (- + set)
  * Statia identifica placa de achizitie si isi seteaza comportamentul 
  * Controlul temperaturii se face cu un algoritm PID, cu parametrii modificabili
  *
- * Control serial: 	solst set <parameter> <value> -parametrii configurabili (KP KI KD KT)
- *	    	solst log <0/1> -in scopuri de debug sau urmarirea comportamentului
- *		solst config -afiseaza parametrii setati
- *		solst save - salveaza noii parametrii in memorie
+ * Control serial: 	solst set <parameter> <value>	-parametrii configurabili (KP KI KD KT)
+ *	    			solst log <0/1>					-in scopuri de debug sau urmarirea comportamentului
+ *					solst config					-afiseaza parametrii setati
+ *					solst eeprom					-afiseaza valorile salvate in eeprom
+ *					solst save						-salveaza noii parametrii in memorie
+ *					solst temp						-seteaza temperatura dorita
  *
- * Nota: Programul actual este construit pentru un ATmega8, dar poate rula pe orice procesor AVR cu cel putin 3 timere, PWM,
+ * Nota: Programul actual este construit pentru un ATmega8, dar poate rula pe orice procesor AVR cu cel putin 2 timere, PWM,
  *	interfata seriala si, optional, pini pentru butoane si afisaj.
 */
 #include <avr/io.h>
@@ -32,12 +34,11 @@
 //pentru o revizie ulterioara
 //#include "digit.h"
 
-volatile uint8_t nr1, nr2, nr3, nr4;
 volatile pid_t pid_s;
 
 int main(void){
 	
-	int16_t temperature = 0;	
+		
 	const char *OK = PSTR("OK\n>");
 	const char *PARAM_RANGE_MSG = PSTR("in afara intervalului 0-%d\n>");
 	const char *STATUS = PSTR("Statie de lipit\n\tKP %d\n\tKI %d\n\tKD %d\n\tKT %d\n");
@@ -58,9 +59,8 @@ int main(void){
 	pid_s.KD = eeprom_read_byte(&EEMEM_KD);
 	pid_s.KT = eeprom_read_byte(&EEMEM_KT);
 
-	if (pid_s.KP == 0xff && pid_s.KI == 0xff && pid_s.KD == 0xff && pid_s.KT == 0xff)
-	{
 		// eeprom is uninitialized - let's fallback to some safe settings
+	if (pid_s.KP == 0xff && pid_s.KI == 0xff && pid_s.KD == 0xff && pid_s.KT == 0xff){
 		// This one were taken from my own tunnings
 		pid_s.KP = 8;
 		pid_s.KI = 22;

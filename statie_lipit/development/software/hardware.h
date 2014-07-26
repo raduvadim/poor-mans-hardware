@@ -1,4 +1,4 @@
-/*Fisier conexiuni
+/*fisier: hardware.h
  * 11/07/2014 vadim@home
  * configurare pentru atmega8(TQFP 32pin)
  * pentru detalii consulta schema placii de control
@@ -13,7 +13,7 @@
 #define SPI_SCK 		PB5
 #define SPI_MISO 		PB4
 #define SPI_MOSI 		PB3
-#define SPI_CS		PB2
+#define SPI_CS			PB2
 
 // USART
 #define USART_U2X
@@ -26,12 +26,7 @@
 //#define CATHODE_PORT_DIR DDRB
 
 //Butoane input
-#define BUTTON_PORT PORTC
-#define BUTTON_PORT_DIR DDRC
-
-// MAX31855 senzor digital compensat
-//#define MAX6675_CS_PORT		PORTB
-//#define MAX6675_CS			PB0
-//#define MAX6675_CS_PORT_DIR	DDRB
+//#define BUTTON_PORT PORTC
+//#define BUTTON_PORT_DIR DDRC
 
 #endif /* HARDWARE_H_ */

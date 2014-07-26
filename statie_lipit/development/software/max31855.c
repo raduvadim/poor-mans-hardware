@@ -1,4 +1,5 @@
-/*MAX31855
+/* fisier: MAX31855.c
+ * 15/07/2014 vadim@anti
  * functii de interfatare
  */
 #include <avr/io.h>
@@ -18,36 +19,24 @@
  *|          |temp tk  |           |care |     |temp amb|ambientala |care |     |     |n/a  |
  *|31-----prima citire----24|23-a-doua-citire16|15-citire-nr-iii-8|7-----a patra citire-----|
  *
- *in functiile implementate nu se trateaza cazurile cu semn.
- *
+ *in functia se trateaza doar citirea termocuplei.
+ *de adaugat: citire temperatura ambientala, tratare erori.
  *
 */
 
-uint16_t read_temperature(uint8_t option){
+uint16_t read_temperature(){
 	SPI_PORT &= ~(1<<SPI_CS);
-	uint32_t dump=((spi_byte_receive()<<24) | (spi_byte_receive()<<16) | (spi_byte_receive()<<8) | (spi_byte_receive()));
+	uint32_t v = ((spi_byte_receive()<<24) | (spi_byte_receive()<<16) | (spi_byte_receive()<<8) | (spi_byte_receive()));
 	SPI_PORT |= (1<<SPI_CS);
-	 if (dump & 0x7) {
-		 // uh oh, a serious problem!
-		 return NAN;
-	 }
-	//cazul 0 returneaza temperatura termocuplei
-	//cazul 1 returneaza temperatura ambientala
-	//cazul 2 returneaza eroarea intalnita
-	if(option == 0){
-		dump >>= 18;
-		
-		//double centigrade = dump;
-		// LSB = 0.25 degrees C
-		//centigrade *= 0.25;
-		
-		return (uint16_t)(dump) & 0x7F;
-	}
-	if(option==1){
-		//de implementat
-	}
-	if(option==2){
-		//de implementat
-	}
-	return 0;
+	  // ignore bottom 4 bits - they're just thermocouple data
+	  v >>= 4;
+
+	  // pull the bottom 11 bits off
+	  float internal = v & 0x7FF;
+	  internal *= 0.0625; // LSB = 0.0625 degrees
+	  // check sign bit!
+	  if (v & 0x800)
+	  internal *= -1;
+	  //Serial.print("\tInternal Temp: "); Serial.println(internal);
+	  return internal;
 }

@@ -1,3 +1,8 @@
+/* fisier: usart.c
+ * 18/07/2014 vadim@home
+ * Bazat pe codul original de la: https://www.openhub.net/p/avr-pid-solder-station?ref=sample
+ * initializare uart
+*/
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdio.h>

@@ -1,3 +1,8 @@
+/* fisier: timer.c
+ * 20/07/2014 vadim@home
+ * initializare timere
+*/
+
 #include <avr/io.h>
 #include "hardware.h"
 #include "timer.h"

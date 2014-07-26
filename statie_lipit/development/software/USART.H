@@ -1,3 +1,9 @@
+/* fisier: usart.h
+ * 18/07/2014 vadim@home
+ * Bazat pe codul original de la: https://www.openhub.net/p/avr-pid-solder-station?ref=sample
+ * 
+*/
+
 #define F_CPU 1000000UL
 
 #ifdef USART_U2X

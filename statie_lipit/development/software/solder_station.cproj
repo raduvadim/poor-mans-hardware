@@ -106,12 +106,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="digit.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="digit.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="hardware.h">
       <SubType>compile</SubType>
     </Compile>

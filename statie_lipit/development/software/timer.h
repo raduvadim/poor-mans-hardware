@@ -1,3 +1,8 @@
+/* fisier: timer.h
+ * 20/07/2014 vadim@home
+ * 
+*/
+
 #ifndef TIMER_H_
 #define TIMER_H_
 

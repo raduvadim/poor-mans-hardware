@@ -1,8 +1,9 @@
-/*
- * isr.c
- *
- *  Created on: 2008-11-28
- *      Author: wodz
+/* fisier: isr.c
+ * 13/07/2014 vadim@home
+ * Bazat pe codul original de la: https://www.openhub.net/p/avr-pid-solder-station?ref=sample
+ *  
+ * Rutinele pentru intreruperile timerelor se trateaza aici.
+ * de adaugat: -procesare input de la butoane 
  */
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
@@ -13,7 +14,7 @@
 #include "moving_average.h"
 //#include "led_7segment.h"
 //#include "adc.h"
-//#include "max6675.h"
+#include "max31855.h"
 #include "pid.h"
 
 #define POWER_SCALE	((PID_TOP/3)+1)
@@ -31,11 +32,7 @@ extern int16_t temperature;
 extern uint8_t log_enable;					// should we send log to RS232?
 extern pid_t pid_s;							// pid struct
 
-ISR(TIMER0_OVF_vect)
-{
-// read the setpoint from adc
-
-	static movingaverage_t filter_s;
+ISR(TIMER0_OVF_vect){
 	uint16_t setpoint_read = temperature;
 
 	if (setpoint != setpoint_read){
@@ -59,8 +56,7 @@ ISR(TIMER0_OVF_vect)
 
 }
 
-ISR(TIMER2_OVF_vect)
-{
+ISR(TIMER2_OVF_vect){
 	uint16_t temperature_read;
 	static uint8_t slow_down;
 	static movingaverage_t filter_struct;
@@ -85,7 +81,7 @@ ISR(TIMER2_OVF_vect)
 	if (temperature_sensor != temperature_read)	{
 		temperature_sensor = temperature_read;
 
-		if (! display_setpoint)	{
+//		if (! display_setpoint)	{
 			// if we do not display setpoint currently, update temperature display
 			// number indicate current temperature
 			// dots indicate applied power

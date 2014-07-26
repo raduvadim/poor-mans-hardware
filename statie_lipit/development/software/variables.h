@@ -1,5 +1,6 @@
-/* variabile si definitii pentru program
-*
+/* fisier: variables.h
+ * 19/07/2014 vadim@anti
+ *variabile si definitii pentru program
 */
 
 #define LINE_SIZE	32				//line buffer size
@@ -17,8 +18,7 @@ uint8_t EEMEM EEMEM_KT;
 
 //comportament
 volatile uint8_t log_enable;
-
+volatile int16_t temperature = 0;
 //din nou oare volatile?cel putin la ultima?
-
 int16_t tmp;
 
