@@ -5,6 +5,8 @@
 #define LINE_SIZE	32				//line buffer size
 #define NOP() __asm__ __volatile__ ("nop")
 
+#define MAX_TEMP_CONSTANT 450
+
 // constante PID stocate in eeprom
 //nu treb volatile?
 uint8_t EEMEM EEMEM_KP;

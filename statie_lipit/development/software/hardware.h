@@ -20,10 +20,10 @@
 #define BAUD 9600UL
 
 // afisaj(4x7seg)
-#define DIGIT_PORT PORTC
-#define DIGIT_PORT_DIR DDRC
-#define CATHODE_PORT PORTB
-#define CATHODE_PORT_DIR DDRB
+//#define DIGIT_PORT PORTC
+//#define DIGIT_PORT_DIR DDRC
+//#define CATHODE_PORT PORTB
+//#define CATHODE_PORT_DIR DDRB
 
 //Butoane input
 #define BUTTON_PORT PORTC

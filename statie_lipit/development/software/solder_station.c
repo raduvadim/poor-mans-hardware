@@ -29,13 +29,15 @@
 #include "spi.h"
 #include "moving_average.h"
 #include "timer.h"
-#include "digit.h"
+//pentru o revizie ulterioara
+//#include "digit.h"
 
 volatile uint8_t nr1, nr2, nr3, nr4;
 volatile pid_t pid_s;
 
 int main(void){
 	
+	int16_t temperature = 0;	
 	const char *OK = PSTR("OK\n>");
 	const char *PARAM_RANGE_MSG = PSTR("in afara intervalului 0-%d\n>");
 	const char *STATUS = PSTR("Statie de lipit\n\tKP %d\n\tKI %d\n\tKD %d\n\tKT %d\n");
@@ -74,8 +76,7 @@ int main(void){
 
 	//bucla infinita de prelucrare input
 	while(1){
-		digit_refresh(nr1, nr2, nr3, nr4);
-		
+				
 		if (fgets(line,LINE_SIZE-1,stdin)){
 			if(strncmp_P(line, PSTR("solst"), 5) == 0){
 				if (strncmp_P(line,PSTR("set KP "),7) == 0){
@@ -148,6 +149,16 @@ int main(void){
 						eeprom_read_byte(&EEMEM_KD), \
 						eeprom_read_byte(&EEMEM_KT));
 					printf_P(OK);
+				}else if (strncmp_P(line,PSTR("set temp "),9) == 0){
+					//set desired temperature
+					sscanf_P(line,PSTR("set temp %d"),&tmp);
+
+					if (tmp < MAX_TEMP_CONSTANT && tmp >= 0){
+						temperature = tmp;
+						printf_P(OK);
+					}else{
+						printf_P(PARAM_RANGE_MSG, MAX_TEMP_CONSTANT);
+					}
 				}else{
 					printf_P(PSTR("?\n>"));
 				}
